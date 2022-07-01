@@ -4,25 +4,12 @@ import { Navigate } from 'react-router-dom'
 import { collection ,getDocs ,addDoc , writeBatch, query , where , documentId } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 import { Formik } from 'formik'
-import * as Yup from 'yup';
+import { Schema } from './Schema'
 
-const schema = Yup.object().shape({
-    nombre: Yup.string()
-                .required('Este campo es obligatorio parce')
-                .min(3, 'El nombre es demasiado corto')
-                .max(25, 'Maximo 25 caracteres'),
-    email: Yup.string()
-                .required('Este campo es obligatorio parce')
-                .email('Formato invalido'),
-    direccion: Yup.string()
-                .required('Este campo es obligatorio parce')
-                .min(5, 'La direccion es demasiado corta')
-                .max(25, 'Maximo 25 caracteres'),           
-})
+const { schema } = Schema
 
 export const Checkout = () => {
    
-
     const { cart , totalPrice, emptyCart } = useCartContext()
     
     const [orderId, setOrderId] = useState(null)
@@ -141,34 +128,4 @@ export const Checkout = () => {
     )
 } 
 
-// cart.forEach((item) => {
 
-//     const docRef = doc(db, 'productos', item.id)
-
-  
-// })   
-// getDoc(docRef)
-// .then((doc) => {
-//     if((doc.data().stock - item.cantidad) >= 0){
-//         updateDoc(docRef, {
-//             stock: doc.data().stock - item.cantidad
-//     })
-// } else {
-//     alert('No hay stock del producto: ' + item.nombre)
-// }
-// })
-
-
-// ! Integrado en formik, no se hardcodea
-// const [values, setValues] = useState({
-    //     nombre: '',
-    //     email: '',
-    //     direccion: ''
-    // })
-
-    // const handleInputChange = (e) => {
-    //     setValues({
-    //         ...values,
-    //         [e.target.name]: e.target.value
-    //     })
-    // }
