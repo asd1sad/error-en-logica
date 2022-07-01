@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 
 export const Schema = () => {
 
-    Yup.object().shape({
+Yup.object().shape({
     nombre: Yup.string()
                 .required('Este campo es obligatorio parce')
                 .min(3, 'El nombre es demasiado corto')
