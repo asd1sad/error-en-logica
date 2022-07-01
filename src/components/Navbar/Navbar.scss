@@ -1,0 +1,49 @@
+ .header{
+    cursor: crosshair;
+    background-color: rgb(31,77,83);
+        &_container{
+            background-color: rgb(31,77,83);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 0;
+
+            .header_logo{
+                color: white;
+            }
+
+            .header_navbar { 
+                display: flex;
+                width: 50%;
+                justify-content: space-around;
+                align-items: center;
+
+                .header_navLink{
+                    color: white;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    cursor: pointer;
+            }
+        }
+        .widget{
+            color: white;
+            font-size: 3vh;
+            opacity: 1;
+            visibility: visible;
+            transition: all .3s ease-in-out;
+        }
+        .widget-hidden {
+            visibility: hidden;
+            opacity: 0;
+        }
+    }
+}
+// a:hover{
+//     cursor: url(https://cur.cursors-4u.net/cursors/cur-1/cur1.ani),
+//     url(https://cur.cursors-4u.net/cursors/cur-1/cur1.png),
+//     auto !important;
+// }
+
+ 

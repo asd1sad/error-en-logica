@@ -1,0 +1,27 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+ 
+.item{ 
+    width: 30%;
+    height: 100vh;
+    margin: auto;
+    text-align: center;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 20 40 10 10 20;
+    margin-bottom: 10vh;
+    justify-content: stretch;
+    img{
+        position: relative;
+        border-radius: 110px;
+        width: 75%;
+        margin: auto;
+    }
+     .img2_hidden{
+        position: absolute;
+        visibility:hidden;
+       }
+ }
+

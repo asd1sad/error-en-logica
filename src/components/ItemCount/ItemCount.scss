@@ -1,0 +1,21 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.cantidadProductos{
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: auto;
+    margin-bottom: 12.5vh;
+}
+
+button{
+    margin: 1vh;
+}
+
+p{
+    font-size: larger;
+    font-weight: bold;
+}

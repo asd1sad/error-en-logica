@@ -1,0 +1,17 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.contenedorProductos{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+}
+
