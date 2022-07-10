@@ -1,11 +1,15 @@
 import { useState } from 'react'
+import { useSize } from './useSize'
 
-export const useCounter = (initial = 0, max, min = 0) => {
 
-    const [counter, setCounter] = useState(initial)
+// initial = 0, max, min = 0
+export const useCounter = (min=-1 ) => {
+    const { stock } = useSize()
+    const [ counter, setCounter ] = useState(0)
 
+    const a = 5
     const increment = () => {
-        counter < max && setCounter( counter + 1)
+        counter < stock && setCounter( counter + 1)
     }
 
     const restar = () => {
@@ -16,7 +20,7 @@ export const useCounter = (initial = 0, max, min = 0) => {
         className: `btn mx-1 ${counter === 0 ? 'btn-outline-danger' : 'btn-outline-primary'} ${counter === 0 ? 'min-value' : ''}`,
         disabled: counter === 0 
     }
-
+            // {console.log(stock)}
     return { 
         counter,
         increment,

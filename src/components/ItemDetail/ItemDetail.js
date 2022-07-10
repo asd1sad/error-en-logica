@@ -1,31 +1,21 @@
 import { ItemCount } from "../ItemCount/ItemCount";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../../Context/CartContext";
 import { useCounter } from '../../hooks/useCounter'
+import { ItemSize } from "../ItemSize/ItemSize";
 import { useSize } from "../../hooks/useSize";
-import {  doc, getDocs , collection} from "firebase/firestore";
-import { db } from '../../firebase/config'
+ 
+
 
 const ItemDetail = ( {item} ) => {
-
-
-    const { addItem, isInCart } = useContext(CartContext)
-    
-
-//   const  productosRef = collection (db, 'productos')
-//   getDocs(productosRef)
-//     .then((resp) => {
-//         const newItems = resp.docs.map((doc) => doc.data())
-    
-//         console.log(newItems[8].stock)
-   
-//     })
  
+    const { size } = useSize()
+    const { addItem, isInCart } = useContext(CartContext)
+     
 // logicas en custom hook
-    const { counter, increment , decrement } = useCounter(0 , item.stock, 0)
-    // const { s, m , l } = useSize()
-
+    const { counter, increment , decrement } = useCounter()
+   
     const navigate = useNavigate()
 
     const handleVolver = () => {
@@ -40,42 +30,20 @@ const ItemDetail = ( {item} ) => {
 
         addItem(itemToCart)
     }
+    // { console.log(stock) }
+    // { console.log(size) } 
     return (
             <div>
                 <h2>{item.nombre}</h2>
                 <img src={item.img} alt={item.nombre}/>
                 <p>{item.desc}</p>
                 <h4>Precio: ${item.precio}</h4> 
- 
-                {/* {
-                       (item.stock === 0) ?
-                       ''
-                        :
-                        <>
-                           <div className="sort_box">
-                               <label htmlFor="sort-by" className="sort_by"> TALLE </label>
-                               <select id="sort-by">
-                                   <option 
-                                   onClick={ s }
-                                   >S
-                                   </option>
 
-                                    <option
-                                     onClick={ m }
-                                    >M
-                                    </option>
-
-                                   <option
-                                     onClick={ l }
-                                    >L
-                                    </option>  
-                                  
-                               </select>
-                            </div>
-                        </>       */}
-                 {/* }   */}
-   
-
+                
+                 <ItemSize item ={item}/> 
+                
+             
+            
                 <hr/>
                 {
                         isInCart(item.id)
@@ -84,16 +52,15 @@ const ItemDetail = ( {item} ) => {
                             <ItemCount
                             increment={increment}
                             decrement={decrement} 
-                            onAdd={handleAgregar} 
+                            handleAgregar={handleAgregar} 
                             counter={counter}
-                            max={item.stock}
+                            size={size}                          
                             />           
                 }
- 
-
+  
                 <br/>
                 <button onClick={handleVolver}>VOLVER</button> 
-               {/* { console.log(a) }   */}
+    
             </div>
     )
 }
