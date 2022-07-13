@@ -1,11 +1,19 @@
 import { useState } from 'react'
 import { useCartContext } from '../../Context/CartContext'
 import { Navigate } from 'react-router-dom'
-import { collection ,getDocs ,addDoc , writeBatch, query , where , documentId } from 'firebase/firestore'
+import { collection ,getDocs ,addDoc , doc, writeBatch, query , where , documentId, DocumentReference } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 import { Formulario } from './Formulario,'
- 
-    
+// console.log('sizeDelPedido:') 
+// const sizeDelPedido = itemToUpdate.size.toLowerCase()
+// console.log(sizeDelPedido)                               //retorna size del pedido 
+
+// console.log('opcionesDelSizeStock:')  
+// const opcionesDelSizeStock = doc.data().stock
+// console.log(opcionesDelSizeStock.s)                    //retorna opciones de size stock
+
+// sizeDelPedido == opcionesDelSizeStock.s ? console.log('true') : console.log('false')
+
     export const Checkout = () => {
                 
         const { cart , totalPrice, emptyCart } = useCartContext()
@@ -16,10 +24,9 @@ import { Formulario } from './Formulario,'
             
         const orden = {
             buyer: values,
-            items: cart.map(({id, cantidad, nombre, precio}) => ({id, cantidad , nombre, precio})),
+            items: cart.map(({id, cantidad, size, nombre, precio}) => ({id, cantidad , size, nombre, precio})),
             total: totalPrice()
         }
-        
         const batch = writeBatch(db)
         const ordenesRef = collection(db, 'ordenes')
         const productosRef = collection(db, 'productos') 
@@ -28,19 +35,46 @@ import { Formulario } from './Formulario,'
         const outOfStock = []
         const productos = await getDocs(q)
         
-        productos.docs.forEach((doc) => {
-            const itemToUpdate = cart.find(prod => prod.id === doc.id)
-            
-            if ((doc.data().stock - itemToUpdate.cantidad) >= 0) {
-                batch.update(doc.ref, {
-                    stock: doc.data().stock - itemToUpdate.cantidad
-                })
-            } else {
-                outOfStock.push(itemToUpdate)
-            }
-        })
         
-        if (outOfStock.length === 0) {
+        productos.docs.forEach((doc) => {
+            const itemToUpdate = cart.find(prod => prod.id === doc.id)   
+                  
+            console.log(doc.data().stock)
+            
+            if (itemToUpdate.size.toLowerCase()  === 'x' &&  doc.data().stock.s  >= 0) {
+                
+                    batch.update(doc.ref, {
+                        stock: doc.data().stock.s - itemToUpdate.cantidad
+                    })
+            // } else if (itemToUpdate.size.toLowerCase()  === 'm' &&  doc.data().stock.m  >= 0) {
+            //     batch.update(doc.ref, {
+            //         stock: doc.data().stock.m - itemToUpdate.cantidad
+            // })
+            // }else if (doc.data().stock.l - itemToUpdate.cantidad){
+            //     batch.update(doc.ref, {
+            //     stock: doc.data().stock.l - itemToUpdate.cantidad
+            //     })
+             
+            // console.log(doc.data().stock) 
+            // console.log( itemToUpdate.cantidad) 
+
+        //         if ((doc.data().stock - itemToUpdate.cantidad) >= 0) {
+        //             batch.update(doc.ref, {
+        //                 stock: doc.data().stock - itemToUpdate.cantidad
+        //             })
+                    
+// batch.update(doc.ref, {
+                    //     stock: doc.data().stock.s - itemToUpdate.cantidad
+                    // })
+                } else {
+                    outOfStock.push(itemToUpdate)
+                    // console.log('noi fubcibi')
+                 }
+            // }
+        })
+        // !!
+ 
+        if (outOfStock.length === 0) { 
             addDoc(ordenesRef, orden)
             .then((doc) => {
                 batch.commit()
@@ -48,8 +82,9 @@ import { Formulario } from './Formulario,'
                 emptyCart()
             })          
         } else {
-            console.log(outOfStock)
-            alert(`Item sin stock: ${outOfStock}`)
+            // console.log(outOfStock)
+            // console.log('no stocke')
+            // alert(`Item sin stock: ${outOfStock}`)
             // alert('Item sin stock:' ,outOfStock)
         }
     }
@@ -81,3 +116,25 @@ import { Formulario } from './Formulario,'
 } 
 
 
+
+
+
+
+
+
+
+
+
+
+// productos.docs.forEach((doc) => {
+//     const itemToUpdate = cart.find(prod => prod.id === doc.id)
+//     //! accede al stock
+//     // console.log(doc.data().stock) 
+//     //! accede al stock size l
+//     // console.log(doc.data().stock.l) 
+
+        
+// })
+// !!!!!!!!!!!!
+// console.log('hola')
+// !!!!!!!!!!!!

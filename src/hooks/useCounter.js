@@ -1,31 +1,31 @@
-import { useState } from 'react'
-import { useSize } from './useSize'
+import { useContext, useEffect, useState } from 'react'
+import { CartContext } from '../Context/CartContext'
 
+ 
+export const useCounter = ( [max, min= 0] ) => {
+  
+    // const { counter, setCounter } = useContext(CartContext)
+    
+    const [counter , setCounter ] = useState(1)
 
-// initial = 0, max, min = 0
-export const useCounter = (min=-1 ) => {
-    const { stock } = useSize()
-    const [ counter, setCounter ] = useState(0)
-
-    const a = 5
     const increment = () => {
-        counter < stock && setCounter( counter + 1)
+        counter < max && setCounter( counter + 1)
     }
-
     const restar = () => {
         counter > min && setCounter( counter - 1)
     }
     const decrement = {
         onClick: restar,
         className: `btn mx-1 ${counter === 0 ? 'btn-outline-danger' : 'btn-outline-primary'} ${counter === 0 ? 'min-value' : ''}`,
-        disabled: counter === 0 
+        disabled: counter === 1
     }
-            // {console.log(stock)}
-    return { 
+   
+      
+    return ({
         counter,
         increment,
-        decrement
-    }
+        decrement,
+    })
 }
 
 
